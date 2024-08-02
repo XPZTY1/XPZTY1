@@ -8,6 +8,7 @@ I'm practicing writing a website.
 
 * 🌍  I'm based in Thailand
 * ✉️  You can contact me at [plkt4281@gmail.com](mailto:plkt4281@gmail.com)
+* 🎲  I am 16 years old
 
 ### Skills
 
