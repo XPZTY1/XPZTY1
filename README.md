@@ -1,19 +1,32 @@
-<div align="center">
+name: Generate Snake Animation
 
-<img src="profile-banner.svg" alt="Profile Banner" width="100%"/>
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
 
-<br/>
+jobs:
+  generate:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Generate snake SVGs
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-snake.svg?palette=githublight&color_snake=0891B2&color_dots=#ebedf0,#a5b4fc,#818cf8,#6366f1,#0891B2
+            dist/github-snake-dark.svg?palette=githubdark&color_snake=10B981&color_dots=#2d3343,#4b5563,#7C3AED,#A78BFA,#22D3EE
 
-<img src="https://raw.githubusercontent.com/XPZTY1/XPZTY1/output/github-contribution-grid-snake.svg" alt="Snake animation" width="100%"/>
-
-<br/><br/>
-
-<img src="https://github-readme-stats-chi-roan-66.vercel.app/api?username=XPZTY1&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" alt="GitHub Stats" />
-
-<br/><br/>
-
-<a href="https://www.instagram.com/pkt.sn/" target="_blank">
-  <img src="https://img.shields.io/badge/Instagram-pkt.sn-E4405F?style=for-the-badge&logo=instagram&logoColor=white&labelColor=0A101F" alt="Instagram" />
-</a>
-
-</div>
+      - name: Push to output branch
+        uses: crazy-max/ghaction-github-pages@v3.1.0
+        with:
+          target_branch: output
+          build_dir: dist
+          commit_message: "Update snake animation [skip ci]"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
